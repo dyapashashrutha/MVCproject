@@ -153,7 +153,7 @@ MVCproject
 
 ### 3. Edit Employee Record
 
-![Edit Employee](Screenshots/Edit-Employee-Data.png)
+![Edit Employee](Screenshots/Edit-Employee.png)
 
 ---
 
