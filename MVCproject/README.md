@@ -141,31 +141,31 @@ MVCproject
 
 ### 1. Employee Registration Page
 
-![Add Employee](Screenshots/Add New Employee.png)
+![Add Employee](Screenshots/Add-New-Employee.png)
 
 ---
 
 ### 2. View Employee Data
 
-![View Employee](Screenshots/Edit Delete Options.png)
+![View Employee](Screenshots/Edit-Delete-Options.png)
 
 ---
 
 ### 3. Edit Employee Record
 
-![Edit Employee](Screenshots/Edit Employee Data.png)
+![Edit Employee](Screenshots/Edit-Employee-Data.png)
 
 ---
 
 ### 4. Delete Employee Record
 
-![Delete Employee](Screenshots/Delete Employee.png)
+![Delete Employee](Screenshots/Delete-Employee.png)
 
 ---
 
 ### 5. Search Employee
 
-![Search Employee](Screenshots/Search Employee.png)
+![Search Employee](Screenshots/Search-Employee.png)
 
 ---
 
