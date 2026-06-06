@@ -1,0 +1,200 @@
+﻿
+@{
+    ViewBag.Title = "ViewEmployeeData";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ViewEmployeeData</h2>
+
+<script src="/Scripts/jquery-3.4.1.js"></script>
+
+<div style="margin-top:30px;">
+   <label class="card-title" style="float:left; font-size:20px; font-weight:bold;">Employee Data</label>
+   <input style="width:350px; float:left; margin-left:20px; margin-right:5px;"type="text" id="txtSearch" class="form-control" placeholder="Search">
+   <input type="button" id="btnSearch" value="Search" class="btn btn-primary" />
+</div>
+<br/>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body table-responsive p-0" style="height: 300px;">
+            <table class="table table-head-fixed text-nowrap">
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Employee Name</th>
+                        <th>Mobile Number</th>
+                        <th>DOJ</th>
+                        <th>Employee Function</th>
+                        <th>Personal Email</th>
+                        <th>Email Address</th>
+                        <th>Employee Password</th>
+                        <th>Employee Type</th>
+                        <th>Employee Status</th>
+                        <th>Employee Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int i = 1; }
+
+                    @foreach( MVCproject.Models.Employee record in ViewBag.empData)
+                    {
+                        <tr row_id="@i">
+                            <td id="empid_@i">@record.empid</td>
+                            <td class="row_data" id="empname_@i">@record.empname</td>
+                            <td class="row_data" id="mobilenumber_@i">@record.mobilenumber</td>
+                            <td class="row_data" id="doj_@i">@record.doj</td>
+                            <td class="row_data" id="empfunction_@i">@record.empfunction</td>
+                            <td class="row_data" id="personalemail_@i">@record.personalemail</td>
+                            <td class="row_data" id="emailaddress_@i">@record.emailaddress</td>
+                            <td class="row_data" id="emppassword_@i">@record.emppassword</td>
+                            <td class="row_data" id="emptype_@i">@record.emptype</td>
+                            <td class="row_data" id="empstatus_@i">@record.empstatus</td>
+                            <td class="row_data" id="empaddress_@i">@record.empaddress</td>
+                            <td><input type="button" class="btn btn-warning" id="btnedit" value="Edit"/><input type="button" class="btn btn-success" id="btnsave" value="Save"/><input type="button" class="btn btn-secondary" id="btncancel" value="Cancel"/><input type="button" class="btn btn-danger" id="btndelete" value="Delete"/></td>
+                        </tr>
+                        i = i + 1;
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    </div>
+
+<script type="text/javascript">
+
+    $(document).on('click', '#btnSearch', function (event) {
+
+        var search = $('#txtSearch').val();
+
+        window.location.href = "/Employee/ViewEmployeeData?search=" + search;
+
+    });
+
+    $(document).on('click', '#btnedit', function (event) {
+
+        var tb1_row = $(this).closest('tr');
+
+        var row_id = tb1_row.attr('row_id');
+
+        tb1_row.find('.row_data')
+            .attr('contenteditable', 'true')
+            .addClass('bg-warning')
+
+        tb1_row.find('#btnedit').hide();
+
+        tb1_row.find('#btnsave').show();
+
+        tb1_row.find('#btncancel').show();
+
+    });
+
+    $(document).on('click', '#btnsave', function (event) {
+
+        var tb1_row = $(this).closest('tr');
+
+        var row_id = tb1_row.attr('row_id');
+
+        var empid = $('#empid_' + row_id).html();
+
+        var empname = $("#empname_" + row_id).html();
+
+        var  mobilenumber= $('#mobilenumber_' + row_id).html();
+
+        var doj = $("#doj_" + row_id).html();
+
+        var empfunction = $('#empfunction_' + row_id).html();
+
+        var personalemail = $('#personalemail_' + row_id).html();
+
+        var emailaddress = $('#emailaddress_' + row_id).html();
+
+        var emppassword = $('#emppassword_' + row_id).html();
+
+        var emptype = $('#emptype_' + row_id).html();
+
+        var empstatus = $('#empstatus_' + row_id).html();
+
+        var empaddress = $('#empaddress_' + row_id).html();
+
+        var updateData = { empid: empid, empname: empname, mobilenumber: mobilenumber, doj: doj, empfunction: empfunction, personalemail: personalemail, emailaddress: emailaddress, emppassword: emppassword, emptype: emptype, empstatus: empstatus, empaddress: empaddress }
+
+        $.ajax({
+            type: "POST",
+            url: "/Employee/Update",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(updateData),
+            datatype: "json",
+            success: function (msg) {
+                if (msg == "Success") {
+                    alert('Data Updated successfully');
+                    window.location.href = "/Employee/ViewEmployeeData";
+                }
+                else {
+                    alert('Some error in code, please check');
+                }
+            },
+            error: function (req, status, error) {
+                alert("Error try again");
+            }
+        });
+
+
+
+    });
+
+    $(document).on('click', '#btncancel', function (event) {
+
+        window.location.href = "/Employee/ViewEmployeeData";
+     
+    });
+
+    $(document).on('click', '#btndelete', function (event) {
+
+        var tb1_row = $(this).closest('tr');
+
+        var row_id = tb1_row.attr('row_id');
+
+        var empid = $('#empid_' + row_id).html();
+
+        var DeleteEmployee = { empid: empid }
+
+        $.ajax({
+            type: "POST",
+            url: "/Employee/Delete",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(DeleteEmployee),
+            datatype: "json",
+            success: function (msg) {
+                if (msg == "Success") {
+                    alert('Employee Deleted successfully');
+                    window.location.href = "/Employee/ViewEmployeeData";
+                }
+                else {
+                    alert('Some error in code, please check');
+                }
+            },
+            error: function (req, status, error) {
+                alert("Error try again");
+            }
+        });
+
+
+
+    });
+
+
+</script>
+
+
+
+
+
+    @*<h1>@ViewBag.CName</h1>
+        <h1>@ViewBag.number</h1>
+        <ul>
+            @foreach(string car in ViewBag.carnames)
+                    {
+                        <li>@car</li>
+                    }
+        </ul>*@
